@@ -7,9 +7,7 @@
     <style>
         :root {
             --lake-blue: #005b96;
-            --soft-white: #fcfcfc;
         }
-
         body {
             margin: 0;
             padding: 0;
@@ -17,34 +15,28 @@
             background-color: #f0f2f5;
             color: #333;
         }
-
         header {
             text-align: center;
             padding: 80px 20px;
             background: white;
             letter-spacing: 0.2em;
         }
-
         .location {
             font-size: 0.8rem;
             color: var(--lake-blue);
             display: block;
             margin-bottom: 10px;
         }
-
         h1 {
             font-size: 2rem;
             margin: 0;
             font-weight: 300;
         }
-
-        /* ギャラリーレイアウト */
         .container {
             max-width: 1100px;
             margin: 40px auto;
             padding: 0 20px;
         }
-
         .section-title {
             font-size: 1.2rem;
             border-bottom: 1px solid #ccc;
@@ -54,47 +46,42 @@
             text-align: center;
             letter-spacing: 0.1em;
         }
-
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
         }
-
         .card {
             background: white;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             overflow: hidden;
-            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
         }
-
         .card img {
             width: 100%;
             height: 250px;
             object-fit: cover;
             display: block;
         }
-
         .caption {
-            padding: 15px;
-            font-size: 0.85rem;
+            padding: 12px;
+            font-size: 0.8rem;
             text-align: center;
+            color: #555;
+            background: #fff;
         }
-
-        /* 動画セクション */
         .video-container {
             width: 100%;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             background: #000;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
-
         video {
             width: 100%;
             max-height: 500px;
             display: block;
         }
-
         footer {
             text-align: center;
             padding: 60px;
@@ -114,50 +101,31 @@
     
     <div class="section-title">SCENES</div>
     <div class="grid">
-        <div class="card">
-            <img src="田沢湖の風景.jpg" alt="田沢湖">
-            <div class="caption">どこまでも続く青</div>
-        </div>
-        <div class="card">
-            <img src="たつこ像.jpg" alt="たつこ像">
-            <div class="caption">静かに佇むたつこ像</div>
-        </div>
-        <div class="card">
-            <img src="神社鳥居.jpg" alt="鳥居">
-            <div class="caption">湖畔の神社</div>
-        </div>
-        <div class="card">
-            <img src="田沢湖深い青.jpg" alt="深い青">
-            <div class="caption">日本一の深さを誇る蒼</div>
-        </div>
-        <div class="card">
-            <img src="足湯.jpg" alt="足湯">
-            <div class="caption">旅の疲れを癒やすひととき</div>
-        </div>
+        <div class="card"><img src="田沢湖の風景.jpg"><div class="caption">広がる夏の空</div></div>
+        <div class="card"><img src="たつこ像.jpg"><div class="caption">たつこ像</div></div>
+        <div class="card"><img src="神社鳥居.jpg"><div class="caption">御座石神社の鳥居</div></div>
+        <div class="card"><img src="田沢湖深い青.jpg"><div class="caption">吸い込まれるような青</div></div>
+        <div class="card"><img src="田沢湖水辺.jpg"><div class="caption">澄んだ水面</div></div>
+        <div class="card"><img src="田沢湖浜.jpg"><div class="caption">穏やかな浜辺</div></div>
+        <div class="card"><img src="水着自分.jpg"><div class="caption">夏を満喫</div></div>
+        <div class="card"><img src="要編集杖の材料調達.jpg"><div class="caption">思い出の材料探し</div></div>
+        <div class="card"><img src="足湯.jpg"><div class="caption">旅の終わりの足湯</div></div>
     </div>
 
     <div class="section-title">MOVIES</div>
     
     <div class="video-container">
-        <video controls poster="田沢湖水辺.jpg">
-            <source src="湖畔動画.mp4" type="video/mp4">
-            お使いのブラウザは動画タグをサポートしていません。
+        <video controls playsinline preload="metadata" poster="田沢湖水辺.jpg">
+            <source src="kohan.mp4" type="video/mp4">
         </video>
-        <div style="background: white; padding: 10px; text-align: center; font-size: 0.8rem;">湖畔の風景</div>
+        <div class="caption">湖畔のさざなみ</div>
     </div>
 
     <div class="video-container">
-        <video controls>
-            <source src="潜り.mp4" type="video/mp4">
-        </video>
-        <div style="background: white; padding: 10px; text-align: center; font-size: 0.8rem;">透明な水の中へ</div>
-    </div>
-
-    <div class="video-container">
-        <video controls>
+        <video controls playsinline preload="metadata">
             <source src="tobikomi.mp4" type="video/mp4">
         </video>
-        <div style="background: white; padding: 10px; text-align: center; font-size: 0.8rem;">夏の飛び込み</div>
+        <div class="caption">最高の飛び込み！</div>
     </div>
 
 </div>
