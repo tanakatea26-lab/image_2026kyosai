@@ -3,75 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>田沢湖の思い出</title>
     <style>
+        :root {
+            --lake-blue: #005b96;
+            --sand-beige: #f4f1ea;
+        }
+
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
-            background-color: #f8f9fa;
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Sans', sans-serif;
+            background-color: var(--sand-beige);
             color: #333;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
 
         header {
-            padding: 40px 20px;
             text-align: center;
-            letter-spacing: 0.1em;
+            padding: 60px 20px;
+            background: white;
         }
 
-        .main-title {
-            font-size: 1.2rem;
-            font-weight: 300;
-            color: #005b96; /* 湖をイメージしたブルー */
-            margin-bottom: 8px;
+        .location {
+            font-size: 0.9rem;
+            letter-spacing: 0.3em;
+            color: var(--lake-blue);
+            text-transform: uppercase;
+            margin-bottom: 10px;
             display: block;
         }
 
         h1 {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             margin: 0;
-            font-weight: 700;
-            color: #222;
+            font-weight: 600;
         }
 
-        .image-container {
-            width: 90%;
-            max-width: 1000px;
-            margin-bottom: 50px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            line-height: 0; /* 下部の隙間削除 */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        img {
+        .card {
+            background: white;
+            padding: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card img {
             width: 100%;
-            height: auto;
+            height: 250px;
+            object-fit: cover;
             display: block;
         }
 
+        .caption {
+            padding: 15px 5px 5px;
+            font-size: 0.85rem;
+            color: #666;
+            text-align: center;
+        }
+
         footer {
-            margin-bottom: 30px;
-            font-size: 0.9rem;
-            color: #888;
+            text-align: center;
+            padding: 40px;
+            font-size: 0.8rem;
+            color: #aaa;
         }
     </style>
 </head>
 <body>
 
-  <header>
-    <span class="main-title">秋田県仙北市</span>
+<header>
+    <span class="location">Akita Semboku</span>
     <h1>田沢湖の思い出</h1>
-  </header>
+</header>
 
-  <div class="image-container">
-    <img src="PXL_20230728_230805804.MP.jpg" alt="夏の田沢湖">
-  </div>
+<main class="gallery">
+    <div class="card">
+        <img src="PXL_20230728_230805804.MP.jpg" alt="メイン写真">
+        <div class="caption">夏のきらめき</div>
+    </div>
 
-  <footer>
-    <p>Summer Memories in Semboku</p>
-  </footer>
+    <div class="card">
+        <img src="田沢湖の風景.jpg" alt="田沢湖の風景">
+        <div class="caption">静かな湖畔</div>
+    </div>
+
+    <div class="card">
+        <img src="たつこ像.heic.heif" alt="たつこ像">
+        <div class="caption">伝説のたつこ像</div>
+    </div>
+
+    <div class="card">
+        <img src="田沢湖深い青.heic.heif" alt="深い青">
+        <div class="caption">日本一深い、蒼。</div>
+    </div>
+</main>
+
+<footer>
+    &copy; 2026 Summer Collection
+</footer>
 
 </body>
 </html>
-
