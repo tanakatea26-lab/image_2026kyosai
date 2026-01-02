@@ -7,56 +7,65 @@
     <style>
         :root {
             --lake-blue: #005b96;
-            --sand-beige: #f4f1ea;
+            --soft-white: #fcfcfc;
         }
 
         body {
             margin: 0;
             padding: 0;
             font-family: 'Helvetica Neue', Arial, 'Hiragino Sans', sans-serif;
-            background-color: var(--sand-beige);
+            background-color: #f0f2f5;
             color: #333;
         }
 
         header {
             text-align: center;
-            padding: 60px 20px;
+            padding: 80px 20px;
             background: white;
+            letter-spacing: 0.2em;
         }
 
         .location {
-            font-size: 0.9rem;
-            letter-spacing: 0.3em;
+            font-size: 0.8rem;
             color: var(--lake-blue);
-            text-transform: uppercase;
-            margin-bottom: 10px;
             display: block;
+            margin-bottom: 10px;
         }
 
         h1 {
-            font-size: 2.2rem;
+            font-size: 2rem;
             margin: 0;
-            font-weight: 600;
+            font-weight: 300;
         }
 
-        .gallery {
+        /* ギャラリーレイアウト */
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+            margin: 60px 0 30px;
+            color: #666;
+            text-align: center;
+            letter-spacing: 0.1em;
+        }
+
+        .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
         }
 
         .card {
             background: white;
-            padding: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: 0.3s;
         }
 
         .card img {
@@ -67,86 +76,94 @@
         }
 
         .caption {
-            padding: 15px 5px 5px;
+            padding: 15px;
             font-size: 0.85rem;
-            color: #666;
             text-align: center;
+        }
+
+        /* 動画セクション */
+        .video-container {
+            width: 100%;
+            margin-bottom: 30px;
+            background: #000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        video {
+            width: 100%;
+            max-height: 500px;
+            display: block;
         }
 
         footer {
             text-align: center;
-            padding: 40px;
+            padding: 60px;
+            color: #999;
             font-size: 0.8rem;
-            color: #aaa;
         }
     </style>
 </head>
 <body>
 
 <header>
-    <span class="location">Akita Semboku</span>
+    <span class="location">秋田県仙北市</span>
     <h1>田沢湖の思い出</h1>
 </header>
 
-<main class="gallery">
-    <div class="card">
-        <img src="PXL_20230728_230805804.MP.jpg" alt="メイン写真">
-        <div class="caption">夏のきらめき</div>
+<div class="container">
+    
+    <div class="section-title">SCENES</div>
+    <div class="grid">
+        <div class="card">
+            <img src="田沢湖の風景.jpg" alt="田沢湖">
+            <div class="caption">どこまでも続く青</div>
+        </div>
+        <div class="card">
+            <img src="たつこ像.jpg" alt="たつこ像">
+            <div class="caption">静かに佇むたつこ像</div>
+        </div>
+        <div class="card">
+            <img src="神社鳥居.jpg" alt="鳥居">
+            <div class="caption">湖畔の神社</div>
+        </div>
+        <div class="card">
+            <img src="田沢湖深い青.jpg" alt="深い青">
+            <div class="caption">日本一の深さを誇る蒼</div>
+        </div>
+        <div class="card">
+            <img src="足湯.jpg" alt="足湯">
+            <div class="caption">旅の疲れを癒やすひととき</div>
+        </div>
     </div>
 
-    <div class="card">
-        <img src="田沢湖の風景.jpg" alt="田沢湖の風景">
-        <div class="caption">静かな湖畔</div>
+    <div class="section-title">MOVIES</div>
+    
+    <div class="video-container">
+        <video controls poster="田沢湖水辺.jpg">
+            <source src="湖畔動画.mp4" type="video/mp4">
+            お使いのブラウザは動画タグをサポートしていません。
+        </video>
+        <div style="background: white; padding: 10px; text-align: center; font-size: 0.8rem;">湖畔の風景</div>
     </div>
 
-    <div class="card">
-        <img src="田沢湖深い青.jpg" alt="深い青">
-        <div class="caption">日本一深い、蒼。</div>
+    <div class="video-container">
+        <video controls>
+            <source src="潜り.mp4" type="video/mp4">
+        </video>
+        <div style="background: white; padding: 10px; text-align: center; font-size: 0.8rem;">透明な水の中へ</div>
     </div>
 
-    <div class="card">
-        <img src="田沢湖浜.jpg" alt="田沢湖浜">
-        <div class="caption">穏やかな波打ち際</div>
+    <div class="video-container">
+        <video controls>
+            <source src="要編集飛び込み〜2.mp4" type="video/mp4">
+        </video>
+        <div style="background: white; padding: 10px; text-align: center; font-size: 0.8rem;">夏の飛び込み</div>
     </div>
 
-    <div class="card">
-        <img src="田沢湖水辺.jpg" alt="田沢湖水辺">
-        <div class="caption">透き通る水面</div>
-    </div>
-
-    <div class="card">
-        <img src="たつこ像.jpg" alt="たつこ像">
-        <div class="caption">伝説のたつこ像</div>
-    </div>
-
-    <div class="card">
-        <img src="神社鳥居.jpg" alt="神社鳥居">
-        <div class="caption">湖畔に佇む鳥居</div>
-    </div>
-
-    <div class="card">
-        <img src="乳頭温泉.jpg" alt="乳頭温泉">
-        <div class="caption">秘湯、乳頭温泉郷</div>
-    </div>
-
-    <div class="card">
-        <img src="足湯.jpg" alt="足湯">
-        <div class="caption">旅の疲れを癒やす足湯</div>
-    </div>
-
-    <div class="card">
-        <img src="要編集杖の材料調達.jpg" alt="材料調達">
-        <div class="caption">思い出の素材探し</div>
-    </div>
-
-    <div class="card">
-        <img src="水着自分.jpg" alt="水着自分">
-        <div class="caption">最高の夏休み</div>
-    </div>
-</main>
+</div>
 
 <footer>
-    &copy; 2026 Summer Collection
+    &copy; Summer Memories in Tazawako
 </footer>
 
 </body>
