@@ -3,193 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>秋田仙北市魔法学校　呪文解説</title>
+    <title>田沢湖の思い出</title>
     <style>
-        body { 
-            background-color: #1a1a1a;
-            background-image: radial-gradient(#2c2c2c 1px, transparent 1px);
-            background-size: 20px 20px;
-            color: #d4af37;
-            font-family: "Sawarabi Mincho", "Hiragino Mincho ProN", "serif";
-            display: flex;
-            justify-content: center;
-            padding: 40px 20px;
+        :root {
+            --lake-blue: #005b96;
+        }
+        body {
             margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Sans', sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
         }
-
-        .content-box { 
-            background: #f4e4bc;
-            color: #2c1e14;
-            padding: 40px;
-            border-radius: 5px;
-            box-shadow: 0 0 30px rgba(0,0,0,0.6), inset 0 0 60px rgba(139,69,19,0.2);
-            max-width: 700px;
-            position: relative;
-            border: 2px solid #8b4513;
-        }
-
-        h1 { 
-            font-size: 2rem; 
+        header {
             text-align: center;
-            border-bottom: 2px double #8b4513;
-            padding-bottom: 15px;
-            margin-top: 0;
-            letter-spacing: 0.3rem;
-            color: #5d3a1a;
+            padding: 80px 20px;
+            background: white;
+            letter-spacing: 0.2em;
         }
-
-        .location-info {
-            background: rgba(139, 69, 19, 0.05);
-            border: 1px solid #8b4513;
-            padding: 15px;
-            margin-bottom: 30px;
-            border-radius: 4px;
-        }
-        .location-info a {
-            color: #0056b3;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        h2 {
-            font-size: 1.4rem;
-            border-left: 5px solid #8b4513;
-            padding-left: 10px;
-            margin-top: 40px;
-            color: #5d3a1a;
-            background: rgba(139, 69, 19, 0.1);
-        }
-
-        .spell-card {
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 1px dashed #8b4513;
-        }
-
-        .spell-name {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #a00;
-            display: block;
-        }
-
-        .spell-effect {
-            font-size: 1rem;
-            margin: 5px 0;
-        }
-
-        .spell-motion {
-            font-size: 0.9rem;
-            color: #555;
-            font-style: italic;
-        }
-        .spell-motion::before {
-            content: "【杖の動き】 ";
-            font-weight: bold;
-            color: #8b4513;
-            font-style: normal;
-        }
-
-        .ultimate-spell {
-            background: rgba(212, 175, 55, 0.2);
-            padding: 20px;
-            border: 2px double #d4af37;
-            text-align: center;
-            margin-top: 50px;
-        }
-        .ultimate-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #8b4513;
+        .location {
+            font-size: 0.8rem;
+            color: var(--lake-blue);
             display: block;
             margin-bottom: 10px;
         }
-
-        .magic-glow {
-            text-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+        h1 {
+            font-size: 2rem;
+            margin: 0;
+            font-weight: 300;
         }
-
-        /* 追加したリンクのスタイル */
-        .footer-link {
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .section-title {
+            font-size: 1.2rem;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+            margin: 60px 0 30px;
+            color: #666;
             text-align: center;
-            margin-top: 40px;
-            font-size: 0.9rem;
-            border-top: 1px solid rgba(139, 69, 19, 0.2);
-            padding-top: 20px;
+            letter-spacing: 0.1em;
         }
-        .footer-link a {
-            color: #8b4513;
-            text-decoration: underline;
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+        }
+        .caption {
+            padding: 12px;
+            font-size: 0.8rem;
+            text-align: center;
+            color: #555;
+            background: #fff;
+        }
+        .video-container {
+            width: 100%;
+            margin-bottom: 40px;
+            background: #000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        video {
+            width: 100%;
+            max-height: 500px;
+            display: block;
+        }
+        footer {
+            text-align: center;
+            padding: 60px;
+            color: #999;
+            font-size: 0.8rem;
         }
     </style>
 </head>
 <body>
-    <div class="content-box">
-        <h1 class="magic-glow">秋田魔法学校<br>呪文解説</h1>
 
-        <div class="location-info">
-            <strong>【魔法の源流：聖地記録】</strong><br>
-            ・<a href="https://www.city.semboku.akita.jp/sightseeing/spot/04_tazawako.html" target="_blank">田沢湖：日本一深い、魔力を湛えし瑠璃色の湖</a><br>
-            ・<a href="https://www.city.semboku.akita.jp/sightseeing/spot/04_tatsukozou.html" target="_blank">たつこ像：永遠の美を求め龍となった乙女の化身</a>
-        </div>
+<header>
+    <span class="location">秋田県仙北市</span>
+    <h1>田沢湖の思い出</h1>
+</header>
 
-        <h2>1. 防御・停止系</h2>
-        <div class="spell-card">
-            <span class="spell-name">ササネ！（静かにしろ・うるさい）</span>
-            <p class="spell-effect">効果：相手の呪文を封じたり、騒ぎを鎮めたりする。</p>
-            <p class="spell-motion">一喝するように鋭く突き出す。</p>
-        </div>
-        <div class="spell-card">
-            <span class="spell-name">トガレ！（止まれ）</span>
-            <p class="spell-effect">効果：動きを止める「全身拘束」に近い呪文。</p>
-            <p class="spell-motion">縦に力強く振り下ろす。</p>
-        </div>
-
-        <h2>2. 攻撃・吹き飛ばし系</h2>
-        <div class="spell-card">
-            <span class="spell-name">マグレ！（転べ・ひっくり返れ）</span>
-            <p class="spell-effect">効果：相手を勢いよく転倒させる。</p>
-            <p class="spell-motion">足元をすくうように横に払う。</p>
-        </div>
-        <div class="spell-card">
-            <span class="spell-name">ハジェレ！（爆ぜろ・壊れろ）</span>
-            <p class="spell-effect">効果：爆発呪文。味噌たんぽが炭火ではぜるような威力。</p>
-            <p class="spell-motion">先端で空を叩く。</p>
-        </div>
-
-        <h2>3. 呼び寄せ・移動系</h2>
-        <div class="spell-card">
-            <span class="spell-name">コサコ！（こっちに来い）</span>
-            <p class="spell-effect">効果：呼び寄せ呪文（アクシオ）。</p>
-            <p class="spell-motion">自分の方へ手招きするように引く。</p>
-        </div>
-        <div class="spell-card">
-            <span class="spell-name">エゲ！（行け）</span>
-            <p class="spell-effect">効果：物を飛ばしたり、相手を遠ざけたりする。</p>
-            <p class="spell-motion">突き放すように振る。</p>
-        </div>
-
-        <h2>4. 特殊・おもてなし系</h2>
-        <div class="spell-card">
-            <span class="spell-name">ケア！（食え・差し上げる）</span>
-            <p class="spell-effect">効果：味噌たんぽの香りを放ち、相手の戦意を喪失させてお腹を空かせる。</p>
-            <p class="spell-motion">相手に差し出すように優しく振る。</p>
-        </div>
-        <div class="spell-card">
-            <span class="spell-name">ネマレ（座れ・休め）</span>
-            <p class="spell-effect">効果：激昂した相手を落ち着かせ、強制的に着席させる。</p>
-            <p class="spell-motion">下に向かってゆっくり抑える。</p>
-        </div>
-
-        <div class="ultimate-spell">
-            <span class="ultimate-title">―― 秋田魔法奥義 ――</span>
-            <span class="spell-name magic-glow" style="font-size: 2.2rem;">ンダ！（そうだ）</span>
-            <p class="spell-effect">効果：自分の魔法の威力を二倍にする、あるいは相手の魔法を「肯定（反射）」して跳ね返す最強のカウンター。</p>
-        </div>
-
-        <div class="footer-link">
-            <a href="https://tanakatea26-lab.github.io/image_2026kyosai/" target="_blank">最後は旅行の思い出です。</a>
-        </div>
+<div class="container">
+    
+    <div class="section-title">SCENES</div>
+    <div class="grid">
+        <div class="card"><img src="田沢湖の風景.jpg"><div class="caption">広がる夏の空</div></div>
+        <div class="card"><img src="たつこ像.jpg"><div class="caption">たつこ像</div></div>
+        <div class="card"><img src="神社鳥居.jpg"><div class="caption">御座石神社の鳥居</div></div>
+        <div class="card"><img src="田沢湖深い青.jpg"><div class="caption">吸い込まれるような青</div></div>
+        <div class="card"><img src="田沢湖水辺.jpg"><div class="caption">澄んだ水面</div></div>
+        <div class="card"><img src="田沢湖浜.jpg"><div class="caption">穏やかな浜辺</div></div>
+        <div class="card"><img src="水着自分.jpg"><div class="caption">夏を満喫</div></div>
+        <div class="card"><img src="要編集杖の材料調達.jpg"><div class="caption">思い出の材料探し</div></div>
+        <div class="card"><img src="足湯.jpg"><div class="caption">旅の終わりの足湯</div></div>
     </div>
+
+    <div class="section-title">MOVIES</div>
+    
+    <div class="video-container">
+        <video controls playsinline preload="metadata" poster="田沢湖水辺.jpg">
+            <source src="kohan.mp4" type="video/mp4">
+        </video>
+        <div class="caption">湖畔のさざなみ</div>
+    </div>
+
+    <div class="video-container">
+        <video controls playsinline preload="metadata">
+            <source src="tobikomi.mp4" type="video/mp4">
+        </video>
+        <div class="caption">最高の飛び込み！</div>
+    </div>
+
+</div>
+
+<footer>
+    &copy; Summer Memories in Tazawako
+</footer>
+
 </body>
 </html>
+
+
+湖畔のさざ波の動画が再生されない
