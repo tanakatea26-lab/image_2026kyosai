@@ -34,7 +34,6 @@
             font-weight: bold;
         }
 
-        /* アートのまちの一文を強調するスタイル */
         .core-message {
             font-size: 1.1rem;
             font-weight: bold;
@@ -150,15 +149,46 @@
     <a href="index.html" class="back-link">← 思い出のギャラリーへ戻る</a>
 
     <script>
-        function sendMagic() {
+        async function sendMagic() {
             const box = document.getElementById('messageBox');
             const res = document.getElementById('responseMessage');
-            
-            if (box.value.trim() !== "") {
-                res.innerText = "✨ フクロウが飛び立ちました！メッセージ送信完了です。";
-                box.value = "";
-                setTimeout(() => { res.innerText = ""; }, 5000);
+            const message = box.value.trim();
+
+            if (message !== "") {
+                // 送信先の設定
+                const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfL1SY0rWSzECf5Nggzq4ausLLm66YjL2dC2ik60y2PTN_BGA/formResponse";
+                const ENTRY_ID = "entry.1798433846"; 
+
+                const formData = new FormData();
+                formData.append(ENTRY_ID, message);
+
+                res.style.color = "#005b96";
+                res.innerText = "呪文を唱えています...";
+
+                try {
+                    // 非同期でGoogleフォームへPOST送信
+                    await fetch(FORM_URL, {
+                        method: "POST",
+                        mode: "no-cors",
+                        body: formData
+                    });
+
+                    // 成功時の表示
+                    res.innerText = "✨ フクロウが飛び立ちました！メッセージ送信完了です。";
+                    box.value = ""; 
+                } catch (error) {
+                    // 失敗時の表示
+                    res.style.color = "#d9534f";
+                    res.innerText = "魔法の調子が悪いようです。もう一度お試しください。";
+                }
+
+                // 5秒後に通知を消去
+                setTimeout(() => { 
+                    res.innerText = ""; 
+                }, 5000);
+
             } else {
+                // 未入力時のエラー表示
                 res.style.color = "#d9534f";
                 res.innerText = "メッセージが空だと魔法が発動しません。";
                 setTimeout(() => {
