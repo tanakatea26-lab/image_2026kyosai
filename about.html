@@ -154,21 +154,46 @@
             const res = document.getElementById('responseMessage');
             const message = box.value.trim();
 
-            if (message !== "") {
-                // 送信先URL
-                const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdCvHO2Q7vnOirNUpncoVQotp5YWec0QjxntsKtAya6IXcg6Q/formResponse";
-                
-                // 【重要】画像から特定した「無題の質問」の正しいIDです
-                const ENTRY_ID = "entry.848821901"; 
+            if (message === "") {
+                res.style.color = "red";
+                res.innerText = "メッセージを入力してください。";
+                return;
+            }
 
-                const formData = new FormData();
-                formData.append(ENTRY_ID, message);
+            // Googleフォームの送信先URL
+            const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdCvHO2Q7vnOirNUpncoVQotp5YWec0QjxntsKtAya6IXcg6Q/formResponse";
+            
+            // 質問項目のID
+            const ENTRY_ID = "entry.848821901"; 
 
-                res.style.color = "#005b96";
-                res.innerText = "呪文を唱えています...";
+            // フォームデータの作成
+            const params = new URLSearchParams();
+            params.append(ENTRY_ID, message);
 
-                try {
-                    // 非同期でGoogleフォームへPOST送信
-                    await fetch(FORM_URL, {
-                        method: "POST",
-                        mode:
+            res.style.color = "#005b96";
+            res.innerText = "呪文を唱えています...";
+
+            try {
+                // mode: 'no-cors' を指定してブラウザの制限を回避
+                await fetch(FORM_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: params
+                });
+
+                // no-cors の場合、成否の判定はできませんが、
+                // ここまで到達すればリクエストは送信されています。
+                res.innerText = "魔法が届きました！（フクロウが飛び立ちました）";
+                box.value = ""; 
+            } catch (e) {
+                console.error(e);
+                res.style.color = "red";
+                res.innerText = "魔法が霧散してしまいました。もう一度お試しください。";
+            }
+        }
+    </script>
+</body>
+</html>
