@@ -149,64 +149,48 @@
     <a href="index.html" class="back-link">← 思い出のギャラリーへ戻る</a>
 
     <script>
-        function sendMagic() {
+        async function sendMagic() {
             const box = document.getElementById('messageBox');
             const res = document.getElementById('responseMessage');
             const message = box.value.trim();
 
-            if (message === "") {
+            if (!message) {
                 res.style.color = "red";
                 res.innerText = "メッセージを入力してください。";
                 return;
             }
 
+            // 正しい送信先と特定した新しいID
             const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdCvHO2Q7vnOirNUpncoVQotp5YWec0QjxntsKtAya6IXcg6Q/formResponse";
-            const ENTRY_ID = "entry.848821901"; 
+            const ENTRY_ID = "entry.1733146064"; 
 
             res.style.color = "#005b96";
             res.innerText = "呪文を唱えています...";
 
-            // 1. 送信後の画面遷移を防ぐための隠し枠(iframe)を作成
-            const iframeName = "hidden_iframe_" + Date.now();
-            const iframe = document.createElement('iframe');
-            iframe.name = iframeName;
-            iframe.style.display = 'none';
-            document.body.appendChild(iframe);
-
-            // 2. フォームを動的に作成
-            const form = document.createElement('form');
-            form.method = "POST";
-            form.action = FORM_URL;
-            form.target = iframeName; // ここで隠し枠を指定
-
-            // 3. 入力内容を設定
-            const input = document.createElement('input');
-            input.type = "hidden";
-            input.name = ENTRY_ID;
-            input.value = message;
-
-            form.appendChild(input);
-            document.body.appendChild(form);
+            // URLSearchParamsを使ってデータを安全に包みます
+            const body = new URLSearchParams();
+            body.append(ENTRY_ID, message);
 
             try {
-                // 4. 送信実行
-                form.submit();
+                // fetchの mode: 'no-cors' で送信
+                await fetch(FORM_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: body
+                });
 
-                // 5. 完了演出（少し時間を置いてから表示を戻す）
-                setTimeout(() => {
-                    res.innerText = "魔法が届きました！（フクロウが飛び立ちました）";
-                    box.value = "";
-                    // 後片付け
-                    document.body.removeChild(form);
-                    document.body.removeChild(iframe);
-                }, 1000);
+                // 送信後の表示切り替え
+                res.innerText = "魔法が届きました！（フクロウが飛び立ちました）";
+                box.value = ""; 
             } catch (e) {
                 console.error(e);
                 res.style.color = "red";
-                res.innerText = "魔法が霧散してしまいました。";
+                res.innerText = "魔法が霧散してしまいました。もう一度お試しください。";
             }
         }
     </script>
-
 </body>
 </html>
