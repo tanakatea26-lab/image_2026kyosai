@@ -46,6 +46,27 @@
             text-align: center;
             letter-spacing: 0.1em;
         }
+        /* YouTube用のスタイル */
+        .music-player {
+            max-width: 600px;
+            margin: 0 auto 40px auto;
+        }
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 の比率 */
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -99,6 +120,20 @@
 
 <div class="container">
     
+    <div class="section-title">MUSIC</div>
+    <div class="music-player">
+        <div class="video-wrapper">
+            <iframe 
+                src="https://www.youtube.com/embed/l0GN40EL1VU?start=102" 
+                title="Joe Hisaishi - Summer" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowfullscreen>
+            </iframe>
+        </div>
+        <div class="caption">♪ 久石譲 - Summer (1:42〜)</div>
+    </div>
+
     <div class="section-title">SCENES</div>
     <div class="grid">
         <div class="card"><img src="田沢湖の風景.jpg"><div class="caption">広がる夏の空</div></div>
@@ -129,23 +164,16 @@
     </div>
 
 </div>
+
 <div style="text-align: center; margin-top: 80px;">
-        <a href="about.html" style="color: #666; text-decoration: none; font-size: 1.8rem; letter-spacing: 0.1em; border-bottom: 1px solid #ccc; padding-bottom: 5px;">
-            作ってみた感想
-        </a>
-    </div>
+    <a href="about.html" style="color: #666; text-decoration: none; font-size: 1.8rem; letter-spacing: 0.1em; border-bottom: 1px solid #ccc; padding-bottom: 5px;">
+        作ってみた感想
+    </a>
+</div>
 
-    <footer>
-        &copy; Summer Memories in Tazawako
-    </footer>
-
-</body>
-</html>
 <footer>
     &copy; Summer Memories in Tazawako
 </footer>
 
 </body>
 </html>
-
-
