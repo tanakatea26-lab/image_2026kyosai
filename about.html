@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>作品を作ってみて</title>
+    <title>AIの口車に乗って、魔法をかけてみた</title>
     <style>
         body {
             font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
@@ -17,15 +17,33 @@
 
         h1 {
             font-size: 1.5rem;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 10px;
+            border-bottom: 2px solid #005b96;
+            padding-bottom: 15px;
             margin-bottom: 40px;
             text-align: center;
+            color: #005b96;
         }
 
         p {
             margin-bottom: 1.5rem;
-            white-space: pre-wrap; /* 改行を反映させる設定 */
+            white-space: pre-wrap;
+        }
+
+        .highlight-blue {
+            background: linear-gradient(transparent 70%, #e6f2ff 70%);
+            font-weight: bold;
+        }
+
+        /* アートのまちの一文を強調するスタイル */
+        .core-message {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #003d66;
+            text-align: center;
+            margin: 40px 0;
+            padding: 20px;
+            border-left: 4px solid #005b96;
+            background-color: #f0f7ff;
         }
 
         .section-break {
@@ -35,12 +53,12 @@
             letter-spacing: 0.5em;
         }
 
-        /* ギミックエリア（入力フォーム）のスタイル */
         .gimmick-area {
-            background: #f9f9f9;
+            background: #ffffff;
             padding: 30px 20px;
-            border: 1px dashed #ccc;
-            border-radius: 8px;
+            border: 1px solid #eee;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-radius: 12px;
             text-align: center;
             margin: 40px 0;
         }
@@ -50,7 +68,7 @@
             max-width: 450px;
             padding: 12px;
             border: 1px solid #ddd;
-            border-radius: 5px;
+            border-radius: 8px;
             font-family: inherit;
             font-size: 0.9rem;
             margin-bottom: 15px;
@@ -58,18 +76,20 @@
         }
 
         button {
-            padding: 10px 30px;
+            padding: 12px 35px;
             cursor: pointer;
             border: none;
-            background: #005b96; /* 田沢湖ブルー */
+            background: #005b96;
             color: #fff;
-            border-radius: 20px;
+            border-radius: 25px;
             font-size: 0.9rem;
-            transition: background 0.3s;
+            font-weight: bold;
+            transition: all 0.3s;
         }
 
         button:hover {
             background: #003d66;
+            transform: translateY(-2px);
         }
 
         #responseMessage {
@@ -80,14 +100,15 @@
             min-height: 1.5em;
         }
 
-        .footer-name {
+        .footer-thanks {
             margin-top: 60px;
             text-align: right;
-            font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 0.9rem;
+            color: #666;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
         }
 
-        /* 前のページに戻るリンク */
         .back-link {
             display: block;
             text-align: center;
@@ -100,34 +121,31 @@
 </head>
 <body>
 
-    <h1>作品を作ってみて</h1>
+    <h1>AIの口車に乗って、魔法をかけてみた</h1>
 
-    <p>何を出品しようかAIと相談していたら
-2年前、田沢湖で食べた味噌たんぽの棒で作った魔法の杖が眠っているので使おうということになりました。
-杖だけだと面白くないから、手を作ろう
-更に、情報をつけて作品を面白くしよう
-とAIの口車に乗って見たら、意外と楽しく作れました。</p>
+    <p>2年前に味噌たんぽの棒で作った杖が、AIとの対話を通じて面白い作品になりました。
+このようなWebサイトまで作ってしまうという展開には自分でも驚きましたが、AIという最高のパートナーとの共同作業は、驚くほどスムーズで刺激的なものでした。</p>
 
-    <p>WEBページについてはAIに作てもらいました。どんな事ができるのか色々試したくなり、はい、いいえのギミックや画像、映像を貼り付けてみたりしました。
-このページ自体もテストのようなものです。
-ハリー〇ッターっぽい音楽が流れるようにしたかったのですが最後までできませんでした。</p>
+    <p>そもそも「よし、やってみよう」と思えたのは、<span class="highlight-blue">「ぼく脳」さん</span>の影響です。彼の自由で突き抜けた表現に触れ、アートは高尚なものではなく、もっと自分勝手に、楽しくていいものなんだと気づかされました。</p>
+    
+    <div class="core-message">
+        クオリティや型に囚われず、誰もが楽しく創造性を発揮できる。<br>
+        それが「アートのまち」の真の意味なのかなと思いました。
+    </div>
 
-    <p>話は変わりますが、田沢湖は最高ですので今年の夏にでも行ってみてください。
-田沢湖で一通り泳いだあとは田沢湖の北にあるあさり商店さんで味噌たんぽを味わってください。
-棒をお持ちいただけました、1ガリオンで私が杖に加工いたします笑</p>
-
-    <div class="section-break">***</div>
+    <div class="section-break">✦ ✦ ✦</div>
 
     <div class="gimmick-area">
-        <p style="margin-top: 0; font-size: 0.9rem; color: #666;">杖の加工依頼や、感想をお寄せください</p>
-        <textarea id="messageBox" rows="4" placeholder="ここにメッセージを入力..."></textarea>
+        <p style="margin-top: 0; font-size: 0.9rem; color: #666;">杖の加工依頼や、作品の感想をお寄せください</p>
+        <textarea id="messageBox" rows="4" placeholder="ここに入力したメッセージは、フクロウが運びます..."></textarea>
         <br>
-        <button type="button" onclick="sendMagic()">送信する</button>
+        <button type="button" onclick="sendMagic()">魔法を送信する</button>
         <div id="responseMessage"></div>
     </div>
 
-    <div class="footer-name">
-        </div>
+    <div class="footer-thanks">
+        素敵な展覧会を用意してくださった共済会の皆様、ありがとうございました！
+    </div>
 
     <a href="index.html" class="back-link">← 思い出のギャラリーへ戻る</a>
 
@@ -137,17 +155,12 @@
             const res = document.getElementById('responseMessage');
             
             if (box.value.trim() !== "") {
-                // 送信演出
                 res.innerText = "✨ フクロウが飛び立ちました！メッセージ送信完了です。";
-                box.value = ""; // 入力欄をクリア
-                
-                // 5秒後にメッセージを消す
-                setTimeout(() => {
-                    res.innerText = "";
-                }, 5000);
+                box.value = "";
+                setTimeout(() => { res.innerText = ""; }, 5000);
             } else {
-                res.style.color = "#d9534f"; // エラー色は赤っぽく
-                res.innerText = "メッセージを入力してください。";
+                res.style.color = "#d9534f";
+                res.innerText = "メッセージが空だと魔法が発動しません。";
                 setTimeout(() => {
                     res.style.color = "#005b96";
                     res.innerText = "";
