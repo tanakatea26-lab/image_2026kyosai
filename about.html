@@ -155,12 +155,11 @@
             const message = box.value.trim();
 
             if (message !== "") {
-                // 送信先URLはこれで合っています
+                // 送信先URL
                 const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdCvHO2Q7vnOirNUpncoVQotp5YWec0QjxntsKtAya6IXcg6Q/formResponse";
                 
-                // 【重要】ここのIDが実際の質問項目とズレていると「空の回答」になります
-                // 画像のフォームの「無題の質問」のIDにセットし直す必要があります
-                const ENTRY_ID = "entry.1798433846"; 
+                // 【重要】画像から特定した「無題の質問」の正しいIDです
+                const ENTRY_ID = "entry.848821901"; 
 
                 const formData = new FormData();
                 formData.append(ENTRY_ID, message);
@@ -169,28 +168,7 @@
                 res.innerText = "呪文を唱えています...";
 
                 try {
+                    // 非同期でGoogleフォームへPOST送信
                     await fetch(FORM_URL, {
                         method: "POST",
-                        mode: "no-cors",
-                        body: formData
-                    });
-
-                    res.innerText = "✨ フクロウが飛び立ちました！メッセージ送信完了です。";
-                    box.value = ""; 
-                } catch (error) {
-                    res.style.color = "#d9534f";
-                    res.innerText = "魔法の調子が悪いようです。もう一度お試しください。";
-                }
-
-                setTimeout(() => { res.innerText = ""; }, 5000);
-
-            } else {
-                res.style.color = "#d9534f";
-                res.innerText = "メッセージが空だと魔法が発動しません。";
-                setTimeout(() => { res.innerText = ""; }, 3000);
-            }
-        }
-    </script>
-
-</body>
-</html>
+                        mode:
