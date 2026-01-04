@@ -52,41 +52,26 @@
             letter-spacing: 0.5em;
         }
 
-        /* 入力エリアのスタイル */
         .gimmick-area {
             background: #ffffff;
             padding: 30px 20px;
             border: 1px solid #eee;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             border-radius: 12px;
+            text-align: center;
             margin: 40px 0;
         }
 
-        .input-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: bold;
-            color: #555;
-            margin-bottom: 8px;
-        }
-
-        input[type="text"], select, textarea {
+        textarea {
             width: 100%;
+            max-width: 450px;
             padding: 12px;
             border: 1px solid #ddd;
             border-radius: 8px;
             font-family: inherit;
             font-size: 0.9rem;
-            box-sizing: border-box;
-        }
-
-        .button-container {
-            text-align: center;
+            margin-bottom: 15px;
+            resize: vertical;
         }
 
         button {
@@ -108,7 +93,6 @@
 
         #responseMessage {
             margin-top: 20px;
-            text-align: center;
             font-size: 0.85rem;
             color: #005b96;
             font-weight: bold;
@@ -151,33 +135,10 @@
     <div class="section-break">✦ ✦ ✦</div>
 
     <div class="gimmick-area">
-        <div class="input-group">
-            <label for="userName">お名前（ニックネーム可）</label>
-            <input type="text" id="userName" placeholder="魔法使いの名を教えてください">
-        </div>
-
-        <div class="input-group">
-            <label for="msgType">メッセージの種類</label>
-            <select id="msgType">
-                <option value="作品への感想">作品への感想</option>
-                <option value="杖の加工依頼（相談）">杖の加工依頼（相談）</option>
-                <option value="その他">その他</option>
-            </select>
-        </div>
-
-        <div class="input-group">
-            <label for="messageBox">メッセージ内容</label>
-            <textarea id="messageBox" rows="4" placeholder="ここに入力したメッセージは、フクロウが運びます..."></textarea>
-        </div>
-
-        <div class="input-group">
-            <label for="contactInfo">返信用の連絡先（任意）</label>
-            <input type="text" id="contactInfo" placeholder="メールアドレスやSNSアカウントなど">
-        </div>
-        
-        <div class="button-container">
-            <button type="button" onclick="sendMagic()">魔法を送信する</button>
-        </div>
+        <p style="margin-top: 0; font-size: 0.9rem; color: #666;">杖の加工依頼や、作品の感想をお寄せください</p>
+        <textarea id="messageBox" rows="4" placeholder="ここに入力したメッセージは、フクロウが運びます..."></textarea>
+        <br>
+        <button type="button" onclick="sendMagic()">魔法を送信する</button>
         <div id="responseMessage"></div>
     </div>
 
@@ -189,29 +150,20 @@
 
     <script>
         async function sendMagic() {
+            const box = document.getElementById('messageBox');
             const res = document.getElementById('responseMessage');
-            
-            // 各入力値の取得
-            const name = document.getElementById('userName').value.trim();
-            const type = document.getElementById('msgType').value;
-            const message = document.getElementById('messageBox').value.trim();
-            const contact = document.getElementById('contactInfo').value.trim();
+            const message = box.value.trim();
 
             if (message !== "") {
-                // 送信先GoogleフォームのURL（/formResponseに変えています）
+                // 送信先URLはこれで合っています
                 const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdCvHO2Q7vnOirNUpncoVQotp5YWec0QjxntsKtAya6IXcg6Q/formResponse";
                 
-                // 各項目のentry ID（解析結果に基づく）
-                const ENTRY_NAME = "entry.1017387346";   // お名前
-                const ENTRY_TYPE = "entry.1691350860";   // 種類
-                const ENTRY_MSG  = "entry.1798433846";   // メッセージ内容
-                const ENTRY_CONTACT = "entry.2064104279"; // 連絡先
+                // 【重要】ここのIDが実際の質問項目とズレていると「空の回答」になります
+                // 画像のフォームの「無題の質問」のIDにセットし直す必要があります
+                const ENTRY_ID = "entry.1798433846"; 
 
                 const formData = new FormData();
-                formData.append(ENTRY_NAME, name);
-                formData.append(ENTRY_TYPE, type);
-                formData.append(ENTRY_MSG, message);
-                formData.append(ENTRY_CONTACT, contact);
+                formData.append(ENTRY_ID, message);
 
                 res.style.color = "#005b96";
                 res.innerText = "呪文を唱えています...";
@@ -223,13 +175,8 @@
                         body: formData
                     });
 
-                    // 成功演出
                     res.innerText = "✨ フクロウが飛び立ちました！メッセージ送信完了です。";
-                    
-                    // フォームをリセット
-                    document.getElementById('userName').value = "";
-                    document.getElementById('messageBox').value = "";
-                    document.getElementById('contactInfo').value = "";
+                    box.value = ""; 
                 } catch (error) {
                     res.style.color = "#d9534f";
                     res.innerText = "魔法の調子が悪いようです。もう一度お試しください。";
@@ -239,7 +186,7 @@
 
             } else {
                 res.style.color = "#d9534f";
-                res.innerText = "メッセージ内容が空だと魔法が発動しません。";
+                res.innerText = "メッセージが空だと魔法が発動しません。";
                 setTimeout(() => { res.innerText = ""; }, 3000);
             }
         }
