@@ -19,9 +19,52 @@
             font-size: 1.5rem;
             border-bottom: 2px solid #005b96;
             padding-bottom: 15px;
-            margin-bottom: 40px;
+            margin-bottom: 20px; /* 少し調整 */
             text-align: center;
             color: #005b96;
+        }
+
+        /* 共有エリアのスタイル */
+        .share-container {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        #shareMenu {
+            display: none;
+            background: #ffffff;
+            border: 1px solid #eee;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-top: 10px;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .share-options {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .share-link {
+            text-decoration: none;
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            transition: opacity 0.3s;
+        }
+
+        .line-color { background-color: #06C755; }
+        .x-color { background-color: #000; }
+        .copy-color { background-color: #666; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         p {
@@ -117,7 +160,6 @@
             font-size: 0.8rem;
         }
 
-        /* リンク間の余白調整 */
         .external-links {
             margin-top: 20px;
         }
@@ -126,6 +168,19 @@
 <body>
 
     <h1>AIの口車に乗って、魔法をかけてみた</h1>
+
+    <div class="share-container">
+        <button type="button" onclick="toggleShareMenu()" style="background: #003d66; padding: 8px 20px; font-size: 0.8rem;">
+            🪄 魔法を共有する
+        </button>
+        <div id="shareMenu">
+            <div class="share-options">
+                <a href="https://line.me/R/msg/text/?AIの口車に乗って、魔法をかけてみた%0ahttps://tanakatea26-lab.github.io/2026kyosai_final/" target="_blank" class="share-link line-color">LINE</a>
+                <a href="https://twitter.com/intent/tweet?text=AIの口車に乗って、魔法をかけてみた&url=https://tanakatea26-lab.github.io/2026kyosai_final/" target="_blank" class="share-link x-color">X (Twitter)</a>
+                <a href="javascript:void(0)" onclick="copyLink()" class="share-link copy-color">リンクをコピー</a>
+            </div>
+        </div>
+    </div>
 
     <p>2年前に味噌たんぽの棒で作った杖が、AIとの対話を通じて自分的には面白い作品になりました。
 私のような素人がこのようなサイトを作る展開には自分でも驚きましたし、WEBページ作っていくと「どのような事ができるか？」といった実験的な側面が増え過程を楽しめました。</p>
@@ -159,6 +214,20 @@
     </div>
 
     <script>
+        // シェアメニューの開閉
+        function toggleShareMenu() {
+            const menu = document.getElementById('shareMenu');
+            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+        }
+
+        // リンクコピー機能
+        function copyLink() {
+            const url = "https://tanakatea26-lab.github.io/2026kyosai_final/";
+            navigator.clipboard.writeText(url).then(() => {
+                alert("リンクをコピーしました。魔法を広めましょう！");
+            });
+        }
+
         async function sendMagic() {
             const box = document.getElementById('messageBox');
             const res = document.getElementById('responseMessage');
@@ -170,19 +239,16 @@
                 return;
             }
 
-            // 正しい送信先と特定した新しいID
             const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdCvHO2Q7vnOirNUpncoVQotp5YWec0QjxntsKtAya6IXcg6Q/formResponse";
             const ENTRY_ID = "entry.1733146064"; 
 
             res.style.color = "#005b96";
             res.innerText = "呪文を唱えています...";
 
-            // URLSearchParamsを使ってデータを安全に包みます
             const body = new URLSearchParams();
             body.append(ENTRY_ID, message);
 
             try {
-                // fetchの mode: 'no-cors' で送信
                 await fetch(FORM_URL, {
                     method: "POST",
                     mode: "no-cors",
@@ -192,7 +258,6 @@
                     body: body
                 });
 
-                // 送信後の表示切り替え
                 res.innerText = "コメントを送りました！（フクロウが飛び立ちました）";
                 box.value = ""; 
             } catch (e) {
