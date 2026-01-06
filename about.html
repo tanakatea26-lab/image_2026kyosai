@@ -199,11 +199,16 @@
     </div>
 
     <script>
-        // LoGoChat用コピー機能：タイトルとURLをセットにする
+        // LoGoChat用コピー機能：ご指定のテキスト形式に変更
         function copyForLogoChat() {
-            const title = "AIの口車に乗って、魔法をかけてみた";
-            const url = "https://tanakatea26-lab.github.io/2026kyosai_final/";
-            const textToCopy = title + "\n" + url;
+            const textToCopy = "​＼ 本 邦 初 公 開 ／\n" +
+                               "秋田杉で作られた「魔法の杖」が凄すぎる…！\n" +
+                               "​📍 会員作品展\n" +
+                               "🗓 2/3(火) 〜 2/6(金)\n" +
+                               "​この質感、この輝き、まさに魔法級。\n" +
+                               "今しか見られない伝説の一本を見逃すな！🪶✨\n" +
+                               "https://tanakatea26-lab.github.io/2026kyosai/";
+                               
             const notice = document.getElementById('copyNotice');
 
             navigator.clipboard.writeText(textToCopy).then(() => {
