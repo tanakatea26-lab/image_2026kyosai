@@ -24,47 +24,40 @@
             color: #005b96;
         }
 
-        /* 共有エリアのスタイル */
+        /* 共有エリアのスタイル（LoGoChat専用） */
         .share-container {
             text-align: center;
             margin-bottom: 40px;
         }
 
-        #shareMenu {
-            display: none;
-            background: #ffffff;
-            border: 1px solid #eee;
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            margin-top: 10px;
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        .share-options {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .share-link {
-            text-decoration: none;
-            color: #fff;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 0.75rem;
+        .logochat-btn {
+            background-color: #00A199; /* LoGoChatのブランドカラーに近いティール系 */
+            color: white;
+            padding: 14px 28px;
+            border-radius: 30px;
+            border: none;
             font-weight: bold;
-            transition: opacity 0.3s;
+            cursor: pointer;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .line-color { background-color: #06C755; }
-        .x-color { background-color: #000; }
-        .copy-color { background-color: #666; }
+        .logochat-btn:hover {
+            background-color: #00847d;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
+        #copyNotice {
+            font-size: 0.8rem;
+            color: #00A199;
+            margin-top: 10px;
+            height: 1.2em;
+            font-weight: bold;
         }
 
         p {
@@ -117,7 +110,7 @@
             resize: vertical;
         }
 
-        button {
+        .send-btn {
             padding: 12px 35px;
             cursor: pointer;
             border: none;
@@ -127,11 +120,6 @@
             font-size: 0.9rem;
             font-weight: bold;
             transition: all 0.3s;
-        }
-
-        button:hover {
-            background: #003d66;
-            transform: translateY(-2px);
         }
 
         #responseMessage {
@@ -170,16 +158,10 @@
     <h1>AIの口車に乗って、魔法をかけてみた</h1>
 
     <div class="share-container">
-        <button type="button" onclick="toggleShareMenu()" style="background: #003d66; padding: 8px 20px; font-size: 0.8rem;">
-            🪄 魔法を共有する
+        <button type="button" class="logochat-btn" onclick="copyForLogoChat()">
+            💬 内容をコピーしてLoGoChatで共有
         </button>
-        <div id="shareMenu">
-            <div class="share-options">
-                <a href="https://line.me/R/msg/text/?AIの口車に乗って、魔法をかけてみた%0ahttps://tanakatea26-lab.github.io/2026kyosai_final/" target="_blank" class="share-link line-color">LINE</a>
-                <a href="https://twitter.com/intent/tweet?text=AIの口車に乗って、魔法をかけてみた&url=https://tanakatea26-lab.github.io/2026kyosai_final/" target="_blank" class="share-link x-color">X (Twitter)</a>
-                <a href="javascript:void(0)" onclick="copyLink()" class="share-link copy-color">リンクをコピー</a>
-            </div>
-        </div>
+        <div id="copyNotice"></div>
     </div>
 
     <p>　2年前に味噌たんぽの棒で作った杖が、AIとの対話を通じて自分的には面白い作品になりました。</p>
@@ -201,7 +183,7 @@
         <p style="margin-top: 0; font-size: 0.9rem; color: #666;">杖の加工依頼や、作品の感想をお寄せください</p>
         <textarea id="messageBox" rows="4" placeholder="ここに入力したメッセージは、フクロウが運びます..."></textarea>
         <br>
-        <button type="button" onclick="sendMagic()">魔法を送信する</button>
+        <button type="button" class="send-btn" onclick="sendMagic()">魔法を送信する</button>
         <div id="responseMessage"></div>
     </div>
 
@@ -217,17 +199,18 @@
     </div>
 
     <script>
-        // シェアメニューの開閉
-        function toggleShareMenu() {
-            const menu = document.getElementById('shareMenu');
-            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
-        }
-
-        // リンクコピー機能
-        function copyLink() {
+        // LoGoChat用コピー機能：タイトルとURLをセットにする
+        function copyForLogoChat() {
+            const title = "AIの口車に乗って、魔法をかけてみた";
             const url = "https://tanakatea26-lab.github.io/2026kyosai_final/";
-            navigator.clipboard.writeText(url).then(() => {
-                alert("リンクをコピーしました。魔法を広めましょう！");
+            const textToCopy = title + "\n" + url;
+            const notice = document.getElementById('copyNotice');
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                notice.innerText = "コピーしました！LoGoChatに貼り付けて送信してください。";
+                setTimeout(() => { notice.innerText = ""; }, 5000);
+            }).catch(err => {
+                alert("コピーに失敗しました。お手数ですがURLを直接選択してコピーしてください。");
             });
         }
 
