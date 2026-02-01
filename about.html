@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AIの口車に乗って、魔法をかけてみた</title>
+    <title>過程と感想</title>
     <style>
         body {
             font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
@@ -74,7 +74,7 @@
             font-size: 1.1rem;
             font-weight: bold;
             color: #003d66;
-            text-align: center;
+            text-align: left;
             margin: 40px 0;
             padding: 20px;
             border-left: 4px solid #005b96;
@@ -151,11 +151,26 @@
         .external-links {
             margin-top: 20px;
         }
+
+        h3 {
+            font-size: 1.2rem;
+            color: #005b96;
+            margin-top: 30px;
+        }
+
+        ul {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
 
-    <h1>AIの口車に乗って、魔法をかけてみた</h1>
+    <h1>過程と感想</h1>
 
     <div class="share-container">
         <button type="button" class="logochat-btn" onclick="copyForLogoChat()">
@@ -164,20 +179,24 @@
         <div id="copyNotice"></div>
     </div>
 
-    <p>　2年前に味噌たんぽの棒で作った杖が、AIとの対話を通じて自分的には面白い作品になりました。</p>
+    <div class="content-area">
+        <h3>制作の動機と経緯</h3>
+        <ul>
+            <li><strong>素材の再利用：</strong> 4年前の夏の工作で作った「杖」が手元にあり、それを再活用したいと考えた。</li>
+            <li><strong>技術的な断念と転換：</strong> 当初は紙粘土で「杖を持つ手」を作りたかったが、技術的に困難だったため、別の表現方法を模索した。</li>
+            <li><strong>芸術観の変化：</strong> 「アートのまち」で芸術家の作品に触れ、以前は「野暮（ダサい）」と感じていた「作品解説」が、実はストーリーで観客を楽しませる重要な手法だと知った。そこで自身の作品にも説明を加え、ストーリー性を持たせることで、造形としての未熟さを補う（ごまかす）というアプローチを取った。</li>
+            <li><strong>今後の目標と本音：</strong> 将来的にはフランソワ・ポンポンの「シロクマ」のような造形を作れるようになりたい。本来、あのような洗練された形に至るまでのプロセスを飛ばして作ろうとするのは邪道かもしれないが、あくまで「小学校の時の工作の延長線上」ということで目をつぶってほしい。</li>
+        </ul>
 
-    <p>　私のような素人がこのようなサイトを作る展開には自分でも驚きましたが、WEBページ作っていくと「どのような事ができるか？」といった実験的な側面が増え過程を楽しめました。</p>
+        <div class="section-break">✦ ✦ ✦</div>
 
-    <p>　一方で実際、内部的な構造作ってるのはAIなので自分の手を離れていく感じもありました。AIを使うから、AIに使われる、まで心理的な部分は紙一重なのかなと感じました。</p>
-
-    <p>　これで行こうとと思えたのは、<span class="highlight-blue">「ぼく脳」さん</span>の影響です。彼の自由で突き抜けた表現に触れ、アートは洗練されたものではなく、もっと泥臭く、自分勝手で、楽しくていいものなんだと気づかされました。</p>
-    
-    <div class="core-message">
-        クオリティや型に囚われず、誰もが楽しく創造性を発揮できる。<br>
-        それが「アートのまち」の副次的な効果だと感じました。
+        <h3>ウェブサイト制作について</h3>
+        <ul>
+            <li><strong>制作のプロセス：</strong> 最初から計画していたわけではなく、その場の成り行きで機能を付け足していく実験的なプロセスを純粋に楽しんだ。</li>
+            <li><strong>現状の課題：</strong> システムの全体像や内部構造を完全に把握できているわけではないため、本格的な保守・管理を求められても対応が難しい。</li>
+            <li><strong>自己評価：</strong> 現在の知識とAIのサポートの組み合わせでは、まだ「趣味の領域」を出ていないという認識。ただ、AIの持つ創造性に関しては、純粋にすごいと感じている。</li>
+        </ul>
     </div>
-
-    <div class="section-break">✦ ✦ ✦</div>
 
     <div class="gimmick-area">
         <p style="margin-top: 0; font-size: 0.9rem; color: #666;">杖の加工依頼や、作品の感想をお寄せください</p>
@@ -199,7 +218,6 @@
     </div>
 
     <script>
-        // LoGoChat用コピー機能：ご指定のテキスト形式に変更
         function copyForLogoChat() {
             const textToCopy = "​＼ 本 邦 初 公 開 ／\n" +
                                "秋田杉で作られた「魔法の杖」が凄すぎる…！\n" +
