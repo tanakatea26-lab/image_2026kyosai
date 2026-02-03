@@ -24,14 +24,13 @@
             color: #005b96;
         }
 
-        /* 共有エリアのスタイル（LoGoChat専用） */
         .share-container {
             text-align: center;
             margin-bottom: 40px;
         }
 
         .logochat-btn {
-            background-color: #00A199; /* LoGoChatのブランドカラーに近いティール系 */
+            background-color: #00A199;
             color: white;
             padding: 14px 28px;
             border-radius: 30px;
@@ -58,27 +57,6 @@
             margin-top: 10px;
             height: 1.2em;
             font-weight: bold;
-        }
-
-        p {
-            margin-bottom: 1.5rem;
-            white-space: pre-wrap;
-        }
-
-        .highlight-blue {
-            background: linear-gradient(transparent 70%, #e6f2ff 70%);
-            font-weight: bold;
-        }
-
-        .core-message {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #003d66;
-            text-align: left;
-            margin: 40px 0;
-            padding: 20px;
-            border-left: 4px solid #005b96;
-            background-color: #f0f7ff;
         }
 
         .section-break {
@@ -148,10 +126,6 @@
             font-size: 0.8rem;
         }
 
-        .external-links {
-            margin-top: 20px;
-        }
-
         h3 {
             font-size: 1.2rem;
             color: #005b96;
@@ -193,7 +167,15 @@
         <ul>
             <li><strong>制作のプロセス：</strong> 最初から計画していたわけではなく、その場の成り行きで機能を付け足していく実験的なプロセスを純粋に楽しんだ。</li>
             <li><strong>現状の課題：</strong> AIコードで作成→GitHubに貼り付け→反映待ちが面倒すぎるので、AIがアプリを直接操作できるようになるまでもう作りたくないと思った。PCで行ったらまた別かもしれないが、スマホでやるのはかなり面倒。</li>
-            <li><strong>自己評価：</strong> ウェブサイト作成にあたり上記の面倒な作業を修正を含め何回も行ったのは我ながら評価できる。　手に関してはAKIRAを観ながら作っていたが、針金で芯を作っていたら針金が指に刺さり大量に出血してしまったので来年は安全を考慮し、現実物質ではなく、ARグラスで見えるAR立体物を作りたいができなさそうだ。</li>
+        </ul>
+
+        <div class="section-break">✦ ✦ ✦</div>
+
+        <h3>自己評価</h3>
+        <ul>
+            <li><strong>継続の達成感：</strong> ウェブサイト作成にあたり上記の面倒な作業を修正を含め何回も行ったのは我ながら評価できる。</li>
+            <li><strong>安全性と反省：</strong> 粘土の手に関しては針金で芯を作っていたら針金が指に刺さり大量に出血してしまった。安全が担保できていなかったのは良くなかった。</li>
+            <li><strong>来年への展望：</strong> 来年は安全を考慮し、現実の物質ではなく、カメラやARグラスで見えるARの立体物を作りたい。この作りたいには技術の壁とデバイスの壁があるが、来年のAIが一般人とスマホで壁を壊せるか見ものである。</li>
         </ul>
     </div>
 
@@ -232,7 +214,7 @@
                 notice.innerText = "コピーしました！LoGoChatに貼り付けて送信してください。";
                 setTimeout(() => { notice.innerText = ""; }, 5000);
             }).catch(err => {
-                alert("コピーに失敗しました。お手数ですがURLを直接選択してコピーしてください。");
+                alert("コピーに失敗しました。");
             });
         }
 
@@ -266,12 +248,11 @@
                     body: body
                 });
 
-                res.innerText = "コメントを送りました！（フクロウが飛び立ちました）";
+                res.innerText = "コメントを送りました！（フクロウが運びます）";
                 box.value = ""; 
             } catch (e) {
-                console.error(e);
                 res.style.color = "red";
-                res.innerText = "魔法が霧散してしまいました。もう一度お試しください。";
+                res.innerText = "魔法が届きませんでした。";
             }
         }
     </script>
