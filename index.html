@@ -10,19 +10,20 @@
         header { text-align: center; padding: 80px 20px; background: white; letter-spacing: 0.2em; }
         .location { font-size: 0.8rem; color: var(--lake-blue); display: block; margin-bottom: 10px; }
         h1 { font-size: 2rem; margin: 0; font-weight: 300; }
-        .container { max-width: 1100px; margin: 40px auto; padding: 0 { --lake-blue: #005b96; }
-        body { margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, 'Hiragino Sans', sans-serif; background-color: #f0f2f5; color: #333; }
-        header { text-align: center; padding: 80px 20px; background: white; letter-spacing: 0.2em; }
-        .location { font-size: 0.8rem; color: var(--lake-blue); display: block; margin-bottom: 10px; }
-        h1 { font-size: 2rem; margin: 0; font-weight: 300; }
         .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
 
         /* ロック機能 */
         #password-section { text-align: center; padding: 40px 20px; background: #fff; border-radius: 12px; margin: 20px auto; max-width: 400px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); position: relative; z-index: 100; }
         #pass-input { padding: 12px; font-size: 1rem; border: 1px solid #ddd; border-radius: 5px; width: 70%; margin-bottom: 10px; outline: none; display: none; }
         .unlock-btn { padding: 12px 25px; background: var(--lake-blue); color: white; border: none; border-radius: 5px; cursor: pointer; }
-        #voice-btn { padding: 15px 30px; background: #e74c3c; color: white; border: none; border-radius: 50px; cursor: pointer; font-size: 1.1rem; margin-bottom: 10px; }
-        #status-msg { font-size: 0.9rem; color: #666; margin-top: 10px; min-height: 1.2em; }
+        #voice-btn { padding: 15px 30px; background: #e74c3c; color: white; border: none; border-radius: 50px; cursor: pointer; font-size: 1.1rem; margin-bottom: 10px; transition: background 0.3s; }
+        #voice-btn:disabled { background: #ccc; cursor: not-allowed; }
+        
+        /* 波形ビジュアライザー */
+        #visualizer-container { height: 60px; width: 100%; margin: 10px 0; display: none; }
+        canvas { width: 100%; height: 100%; }
+
+        #status-msg { font-size: 1.2rem; color: #333; margin-top: 15px; min-height: 1.5em; font-weight: bold; }
         #manual-unlock-btn { display: none; }
 
         /* モザイク */
@@ -59,6 +60,10 @@
         <p id="instruction-text">合言葉を音声で入力してください</p>
         
         <button id="voice-btn" onclick="startVoiceRecognition()">🎙 音声で入力</button>
+        
+        <div id="visualizer-container">
+            <canvas id="visualizer"></canvas>
+        </div>
         
         <div id="manual-input-area">
             <input type="text" id="pass-input" placeholder="合言葉を入力">
@@ -121,41 +126,73 @@
 
 <script>
     let errorCount = 0;
+    let timer = null;
+    let audioCtx, analyser, dataArray, animationId;
     const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
     recognition.lang = 'ja-JP';
-    recognition.interimResults = false;
+    recognition.interimResults = true;
 
     function startVoiceRecognition() {
         const statusMsg = document.getElementById('status-msg');
+        const voiceBtn = document.getElementById('voice-btn');
+        const visualizerContainer = document.getElementById('visualizer-container');
+
         statusMsg.innerText = "聞き取り中...";
+        voiceBtn.disabled = true;
+        visualizerContainer.style.display = 'block';
+        
+        initVisualizer();
         recognition.start();
+
+        timer = setTimeout(() => {
+            recognition.stop();
+            stopVisualizer();
+            if (statusMsg.innerText === "聞き取り中...") {
+                statusMsg.innerText = "タイムアウト：もう一度お試しください";
+                errorCount++;
+                handleFailure();
+            }
+            voiceBtn.disabled = false;
+        }, 5000);
     }
 
     recognition.onresult = (event) => {
         const result = event.results[0][0].transcript;
         document.getElementById('status-msg').innerText = "認識結果: " + result;
 
-        if (result.includes("田沢湖")) {
-            unlockContent();
-        } else {
-            errorCount++;
-            handleFailure();
+        if (event.results[0].isFinal) {
+            clearTimeout(timer);
+            stopVisualizer();
+            document.getElementById('voice-btn').disabled = false;
+
+            if (result.includes("田沢湖")) {
+                document.getElementById('status-msg').style.color = 'var(--lake-blue)';
+                document.getElementById('status-msg').innerText = "「" + result + "」正解です！";
+                setTimeout(unlockContent, 1000);
+            } else {
+                errorCount++;
+                handleFailure();
+            }
         }
     };
 
     recognition.onerror = () => {
-        document.getElementById('status-msg').innerText = "エラーが発生しました。もう一度お試しください。";
+        clearTimeout(timer);
+        stopVisualizer();
+        document.getElementById('voice-btn').disabled = false;
+        document.getElementById('status-msg').innerText = "エラーが発生しました";
     };
 
     function handleFailure() {
+        document.getElementById('visualizer-container').style.display = 'none';
         if (errorCount >= 2) {
             document.getElementById('instruction-text').innerText = "合言葉を入力してください";
             document.getElementById('voice-btn').style.display = 'none';
             document.getElementById('pass-input').style.display = 'inline-block';
             document.getElementById('manual-unlock-btn').style.display = 'inline-block';
-            document.getElementById('status-msg').innerText = "音声認識が2回失敗しました。手動で入力してください。";
+            document.getElementById('status-msg').innerText = "手入力に切り替わりました。";
         } else {
-            alert("合言葉が違います（あと" + (2 - errorCount) + "回失敗で手入力に切り替わります）");
+            alert("合言葉が正しくありません。");
             document.getElementById('status-msg').innerText = "もう一度ボタンを押して話してください。";
         }
     }
@@ -173,53 +210,68 @@
         document.getElementById('password-section').style.display = 'none';
     }
 
-    // --- モーダル制御（変更なし） ---
+    async function initVisualizer() {
+        const canvas = document.getElementById('visualizer');
+        const canvasCtx = canvas.getContext('2d');
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            analyser = audioCtx.createAnalyser();
+            const source = audioCtx.createMediaStreamSource(stream);
+            source.connect(analyser);
+            analyser.fftSize = 256;
+            dataArray = new Uint8Array(analyser.frequencyBinCount);
+            function draw() {
+                animationId = requestAnimationFrame(draw);
+                analyser.getByteFrequencyData(dataArray);
+                canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+                canvasCtx.fillStyle = 'rgba(0, 91, 150, 0.5)';
+                const barWidth = (canvas.width / dataArray.length) * 2.5;
+                let x = 0;
+                for(let i = 0; i < dataArray.length; i++) {
+                    let barHeight = dataArray[i] / 2;
+                    canvasCtx.fillRect(x, canvas.height/2 - barHeight/2, barWidth, barHeight);
+                    x += barWidth + 1;
+                }
+            }
+            draw();
+        } catch (err) { console.error(err); }
+    }
+
+    function stopVisualizer() {
+        if (animationId) cancelAnimationFrame(animationId);
+        if (audioCtx) audioCtx.close();
+    }
+
     const modal = document.getElementById('imageModal');
     const img = document.getElementById('modalImg');
     let scale = 1, lastScale = 1, startX = 0, startY = 0, posX = 0, posY = 0, lastPosX = 0, lastPosY = 0, touches = 0;
-
     document.querySelectorAll('.card img').forEach(el => {
         el.onclick = function() {
             if (!document.getElementById('lock-target').classList.contains('unlocked')) return;
-            img.src = this.src;
-            modal.style.display = "block";
-            scale = 1; posX = 0; posY = 0; lastPosX = 0; lastPosY = 0;
-            updateTransform();
+            img.src = this.src; modal.style.display = "block";
+            scale = 1; posX = 0; posY = 0; lastPosX = 0; lastPosY = 0; updateTransform();
         };
     });
-
     modal.addEventListener('touchstart', e => {
         touches = e.touches.length;
-        if (touches === 1) {
-            startX = e.touches[0].pageX - lastPosX;
-            startY = e.touches[0].pageY - lastPosY;
-        } else if (touches === 2) {
-            lastScale = Math.hypot(e.touches[0].pageX - e.touches[1].pageX, e.touches[0].pageY - e.touches[1].pageY) / scale;
-        }
+        if (touches === 1) { startX = e.touches[0].pageX - lastPosX; startY = e.touches[0].pageY - lastPosY; }
+        else if (touches === 2) { lastScale = Math.hypot(e.touches[0].pageX - e.touches[1].pageX, e.touches[0].pageY - e.touches[1].pageY) / scale; }
     });
-
     modal.addEventListener('touchmove', e => {
         e.preventDefault();
-        if (e.touches.length === 1) {
-            posX = e.touches[0].pageX - startX;
-            posY = e.touches[0].pageY - startY;
-        } else if (e.touches.length === 2) {
+        if (e.touches.length === 1) { posX = e.touches[0].pageX - startX; posY = e.touches[0].pageY - startY; }
+        else if (e.touches.length === 2) {
             scale = Math.hypot(e.touches[0].pageX - e.touches[1].pageX, e.touches[0].pageY - e.touches[1].pageY) / lastScale;
             scale = Math.min(Math.max(1, scale), 4);
         }
         updateTransform();
     });
-
     modal.addEventListener('touchend', e => {
         lastPosX = posX; lastPosY = posY;
-        if (scale <= 1.1 && (Math.abs(posY) > 100 || (e.touches.length === 0 && touches === 1 && Math.abs(posX - lastPosX) < 10))) {
-            modal.style.display = "none";
-        }
+        if (scale <= 1.1 && (Math.abs(posY) > 100 || (e.touches.length === 0 && touches === 1 && Math.abs(posX - lastPosX) < 10))) { modal.style.display = "none"; }
     });
-
-    function updateTransform() {
-        img.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
-    }
+    function updateTransform() { img.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`; }
 </script>
 </body>
 </html>
