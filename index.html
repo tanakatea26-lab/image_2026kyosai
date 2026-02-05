@@ -14,28 +14,29 @@
 
         /* ロック機能 */
         #password-section { text-align: center; padding: 40px 20px; background: #fff; border-radius: 12px; margin: 20px auto; max-width: 400px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); position: relative; z-index: 100; }
-        #pass-input { padding: 12px; font-size: 1rem; border: 1px solid #ddd; border-radius: 5px; width: 70%; margin-bottom: 10px; }
+        #pass-input { padding: 12px; font-size: 1rem; border: 1px solid #ddd; border-radius: 5px; width: 70%; margin-bottom: 10px; outline: none; }
         .unlock-btn { padding: 12px 25px; background: var(--lake-blue); color: white; border: none; border-radius: 5px; cursor: pointer; }
 
+        /* モザイク */
         #lock-target { filter: blur(20px); pointer-events: none; user-select: none; transition: filter 0.8s ease; }
         #lock-target.unlocked { filter: blur(0); pointer-events: auto; }
 
         .section-title { font-size: 1.2rem; border-bottom: 1px solid #ccc; padding-bottom: 10px; margin: 60px 0 30px; color: #666; text-align: center; letter-spacing: 0.1em; }
         .music-player { max-width: 600px; margin: 0 auto 40px auto; }
-        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
         
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
         .card { background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden; display: flex; flex-direction: column; cursor: zoom-in; }
         .card img { width: 100%; height: 250px; object-fit: cover; display: block; }
         .caption { padding: 12px; font-size: 0.8rem; text-align: center; color: #555; background: #fff; }
+        .video-container { width: 100%; margin-bottom: 40px; background: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        video { width: 100%; max-height: 500px; display: block; }
 
         /* 高機能モーダル */
         .modal { display: none; position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); overflow: hidden; touch-action: none; }
         #modalImg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; transform-origin: center; will-change: transform; }
-        
         .close-hint { position: absolute; top: 20px; width: 100%; text-align: center; color: white; font-size: 0.7rem; opacity: 0.6; pointer-events: none; }
-
         footer { text-align: center; padding: 60px; color: #999; font-size: 0.8rem; }
     </style>
 </head>
@@ -69,18 +70,39 @@
             <div class="card"><img src="田沢湖深い青.jpg"><div class="caption">吸い込まれるような青</div></div>
             <div class="card"><img src="田沢湖水辺.jpg"><div class="caption">澄んだ水面</div></div>
             <div class="card"><img src="田沢湖浜.jpg"><div class="caption">穏やかな浜辺</div></div>
+            <div class="card"><img src="水着自分.jpg"><div class="caption">夏を満喫</div></div>
+            <div class="card"><img src="要編集杖の材料調達.jpg"><div class="caption">味噌たんぽを頬張る母</div></div>
+            <div class="card"><img src="足湯.jpg"><div class="caption">乳頭温泉足湯</div></div>
             <div class="card"><img src="https://res.cloudinary.com/dwbkrplu6/image/upload/v1767522191/銀山_mmhl7n.jpg"><div class="caption">銀山温泉</div></div>
             <div class="card"><img src="https://res.cloudinary.com/dwbkrplu6/image/upload/v1767522189/抱返り渓谷2_l0bsun.jpg"><div class="caption">抱返り渓谷</div></div>
             <div class="card"><img src="https://res.cloudinary.com/dwbkrplu6/image/upload/v1767522188/鳥海山_srbcfo.jpg"><div class="caption">鳥海山</div></div>
             <div class="card"><img src="https://res.cloudinary.com/dwbkrplu6/image/upload/v1767522188/滝_b9px8g.jpg"><div class="caption">元滝伏流水</div></div>
+            <div class="card"><img src="https://res.cloudinary.com/dwbkrplu6/image/upload/v1767522184/由良_ns2hlt.jpg"><div class="caption">由良海岸</div></div>
+            <div class="card"><img src="https://res.cloudinary.com/dwbkrplu6/image/upload/f_auto,q_auto/v1767522184/海岸_rc8hiz.jpg"><div class="caption">透き通る海岸線</div></div>
+        </div>
+
+        <div class="section-title">MOVIES</div>
+        <div class="video-container">
+            <video controls playsinline poster="田沢湖水辺.jpg"><source src="kohan.mp4" type="video/mp4"></video>
+            <div class="caption">湖畔のさざなみ</div>
+        </div>
+        <div class="video-container">
+            <video controls playsinline><source src="tobikomi.mp4" type="video/mp4"></video>
+            <div class="caption">最高の飛び込み！</div>
+        </div>
+
+        <div style="text-align: center; margin-top: 80px;">
+            <a href="about.html" style="color: #666; text-decoration: none; font-size: 1.8rem; border-bottom: 1px solid #ccc; padding-bottom: 5px;">作ってみた感想</a>
         </div>
     </div>
 </div>
 
 <div id="imageModal" class="modal">
-    <div class="close-hint">タップか上下スワイプで閉じる</div>
+    <div class="close-hint">タップか上下スワイプで閉じる / 2本指で拡大</div>
     <img id="modalImg">
 </div>
+
+<footer>© Summer Memories in Tazawako</footer>
 
 <script>
     function checkPassword() {
@@ -99,16 +121,17 @@
             if (!document.getElementById('lock-target').classList.contains('unlocked')) return;
             img.src = this.src;
             modal.style.display = "block";
-            scale = 1; posX = 0; posY = 0;
+            scale = 1; posX = 0; posY = 0; lastPosX = 0; lastPosY = 0;
             updateTransform();
         };
     });
 
     modal.addEventListener('touchstart', e => {
         touches = e.touches.length;
-        startX = e.touches[0].pageX - lastPosX;
-        startY = e.touches[0].pageY - lastPosY;
-        if (touches === 2) {
+        if (touches === 1) {
+            startX = e.touches[0].pageX - lastPosX;
+            startY = e.touches[0].pageY - lastPosY;
+        } else if (touches === 2) {
             lastScale = Math.hypot(e.touches[0].pageX - e.touches[1].pageX, e.touches[0].pageY - e.touches[1].pageY) / scale;
         }
     });
@@ -127,9 +150,8 @@
 
     modal.addEventListener('touchend', e => {
         lastPosX = posX; lastPosY = posY;
-        if (scale <= 1.1 && (Math.abs(posY) > 100 || e.touches.length === 0 && touches === 1 && Math.abs(posX) < 10)) {
+        if (scale <= 1.1 && (Math.abs(posY) > 100 || (e.touches.length === 0 && touches === 1 && Math.abs(posX - lastPosX) < 10))) {
             modal.style.display = "none";
-            lastPosX = 0; lastPosY = 0;
         }
     });
 
