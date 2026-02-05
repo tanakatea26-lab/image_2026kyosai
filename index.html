@@ -10,12 +10,20 @@
         header { text-align: center; padding: 80px 20px; background: white; letter-spacing: 0.2em; }
         .location { font-size: 0.8rem; color: var(--lake-blue); display: block; margin-bottom: 10px; }
         h1 { font-size: 2rem; margin: 0; font-weight: 300; }
+        .container { max-width: 1100px; margin: 40px auto; padding: 0 { --lake-blue: #005b96; }
+        body { margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, 'Hiragino Sans', sans-serif; background-color: #f0f2f5; color: #333; }
+        header { text-align: center; padding: 80px 20px; background: white; letter-spacing: 0.2em; }
+        .location { font-size: 0.8rem; color: var(--lake-blue); display: block; margin-bottom: 10px; }
+        h1 { font-size: 2rem; margin: 0; font-weight: 300; }
         .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
 
         /* ロック機能 */
         #password-section { text-align: center; padding: 40px 20px; background: #fff; border-radius: 12px; margin: 20px auto; max-width: 400px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); position: relative; z-index: 100; }
-        #pass-input { padding: 12px; font-size: 1rem; border: 1px solid #ddd; border-radius: 5px; width: 70%; margin-bottom: 10px; outline: none; }
+        #pass-input { padding: 12px; font-size: 1rem; border: 1px solid #ddd; border-radius: 5px; width: 70%; margin-bottom: 10px; outline: none; display: none; }
         .unlock-btn { padding: 12px 25px; background: var(--lake-blue); color: white; border: none; border-radius: 5px; cursor: pointer; }
+        #voice-btn { padding: 15px 30px; background: #e74c3c; color: white; border: none; border-radius: 50px; cursor: pointer; font-size: 1.1rem; margin-bottom: 10px; }
+        #status-msg { font-size: 0.9rem; color: #666; margin-top: 10px; min-height: 1.2em; }
+        #manual-unlock-btn { display: none; }
 
         /* モザイク */
         #lock-target { filter: blur(20px); pointer-events: none; user-select: none; transition: filter 0.8s ease; }
@@ -48,9 +56,16 @@
 
 <div class="container">
     <div id="password-section">
-        <p>思い出を振り返るには合言葉を入力してください</p>
-        <input type="text" id="pass-input" placeholder="合言葉を入力">
-        <br><button class="unlock-btn" onclick="checkPassword()">解除する</button>
+        <p id="instruction-text">合言葉を音声で入力してください</p>
+        
+        <button id="voice-btn" onclick="startVoiceRecognition()">🎙 音声で入力</button>
+        
+        <div id="manual-input-area">
+            <input type="text" id="pass-input" placeholder="合言葉を入力">
+            <br><button id="manual-unlock-btn" class="unlock-btn" onclick="checkPassword()">解除する</button>
+        </div>
+        
+        <div id="status-msg"></div>
     </div>
 
     <div id="lock-target">
@@ -105,13 +120,60 @@
 <footer>© Summer Memories in Tazawako</footer>
 
 <script>
-    function checkPassword() {
-        if (document.getElementById('pass-input').value === "田沢湖") {
-            document.getElementById('lock-target').classList.add('unlocked');
-            document.getElementById('password-section').style.display = 'none';
-        } else { alert("合言葉が違います"); }
+    let errorCount = 0;
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = 'ja-JP';
+    recognition.interimResults = false;
+
+    function startVoiceRecognition() {
+        const statusMsg = document.getElementById('status-msg');
+        statusMsg.innerText = "聞き取り中...";
+        recognition.start();
     }
 
+    recognition.onresult = (event) => {
+        const result = event.results[0][0].transcript;
+        document.getElementById('status-msg').innerText = "認識結果: " + result;
+
+        if (result.includes("田沢湖")) {
+            unlockContent();
+        } else {
+            errorCount++;
+            handleFailure();
+        }
+    };
+
+    recognition.onerror = () => {
+        document.getElementById('status-msg').innerText = "エラーが発生しました。もう一度お試しください。";
+    };
+
+    function handleFailure() {
+        if (errorCount >= 2) {
+            document.getElementById('instruction-text').innerText = "合言葉を入力してください";
+            document.getElementById('voice-btn').style.display = 'none';
+            document.getElementById('pass-input').style.display = 'inline-block';
+            document.getElementById('manual-unlock-btn').style.display = 'inline-block';
+            document.getElementById('status-msg').innerText = "音声認識が2回失敗しました。手動で入力してください。";
+        } else {
+            alert("合言葉が違います（あと" + (2 - errorCount) + "回失敗で手入力に切り替わります）");
+            document.getElementById('status-msg').innerText = "もう一度ボタンを押して話してください。";
+        }
+    }
+
+    function checkPassword() {
+        if (document.getElementById('pass-input').value === "田沢湖") {
+            unlockContent();
+        } else {
+            alert("合言葉が違います");
+        }
+    }
+
+    function unlockContent() {
+        document.getElementById('lock-target').classList.add('unlocked');
+        document.getElementById('password-section').style.display = 'none';
+    }
+
+    // --- モーダル制御（変更なし） ---
     const modal = document.getElementById('imageModal');
     const img = document.getElementById('modalImg');
     let scale = 1, lastScale = 1, startX = 0, startY = 0, posX = 0, posY = 0, lastPosX = 0, lastPosY = 0, touches = 0;
