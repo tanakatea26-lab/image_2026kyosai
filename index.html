@@ -23,7 +23,7 @@
         #visualizer-container { height: 60px; width: 100%; margin: 10px 0; display: none; }
         canvas { width: 100%; height: 100%; }
 
-        #status-msg { font-size: 1.2rem; color: #333; margin-top: 15px; min-height: 1.5em; font-weight: bold; }
+        #status-msg { font-size: 1.1rem; color: #666; margin-top: 15px; min-height: 1.5em; font-weight: bold; line-height: 1.4; }
         #manual-unlock-btn { display: none; }
 
         /* モザイク */
@@ -42,7 +42,7 @@
         .video-container { width: 100%; margin-bottom: 40px; background: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
         video { width: 100%; max-height: 500px; display: block; }
 
-        /* 高機能モーダル */
+        /* モーダル */
         .modal { display: none; position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); overflow: hidden; touch-action: none; }
         #modalImg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; transform-origin: center; will-change: transform; }
         .close-hint { position: absolute; top: 20px; width: 100%; text-align: center; color: white; font-size: 0.7rem; opacity: 0.6; pointer-events: none; }
@@ -70,14 +70,14 @@
             <br><button id="manual-unlock-btn" class="unlock-btn" onclick="checkPassword()">解除する</button>
         </div>
         
-        <div id="status-msg"></div>
+        <div id="status-msg">合言葉は「田沢湖」</div>
     </div>
 
     <div id="lock-target">
         <div class="section-title">MUSIC</div>
         <div class="music-player">
             <div class="video-wrapper">
-                <iframe src="https://www.youtube.com/embed/l0GN40EL1VU?start=102" title="Summer" frameborder="0" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/qEb4TG10jW8?start=102" title="Summer" frameborder="0" allowfullscreen></iframe>
             </div>
             <div class="caption">♪ 久石譲 - Summer (1:42〜)</div>
         </div>
@@ -128,9 +128,13 @@
     let errorCount = 0;
     let timer = null;
     let audioCtx, analyser, dataArray, animationId;
-    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    
+    // 音声認識の設定
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
     recognition.lang = 'ja-JP';
-    recognition.interimResults = true;
+    recognition.interimResults = true; // 途中の経過を取得する
+    recognition.continuous = true;    // 途切れても入力を続ける
 
     function startVoiceRecognition() {
         const statusMsg = document.getElementById('status-msg');
@@ -142,45 +146,53 @@
         visualizerContainer.style.display = 'block';
         
         initVisualizer();
-        recognition.start();
+        
+        try {
+            recognition.start();
+        } catch(e) { console.log(e); }
 
+        // 8秒間何も反応がなければタイムアウト
+        clearTimeout(timer);
         timer = setTimeout(() => {
-            recognition.stop();
-            stopVisualizer();
-            if (statusMsg.innerText === "聞き取り中...") {
+            if (!document.getElementById('lock-target').classList.contains('unlocked')) {
+                recognition.stop();
+                stopVisualizer();
                 statusMsg.innerText = "タイムアウト：もう一度お試しください";
                 errorCount++;
                 handleFailure();
+                voiceBtn.disabled = false;
             }
-            voiceBtn.disabled = false;
-        }, 5000);
+        }, 8000);
     }
 
     recognition.onresult = (event) => {
-        const result = event.results[0][0].transcript;
-        document.getElementById('status-msg').innerText = "認識結果: " + result;
+        let interimTranscript = '';
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+            interimTranscript += event.results[i][0].transcript;
+        }
 
-        if (event.results[0].isFinal) {
+        // 画面にリアルタイムで表示
+        document.getElementById('status-msg').innerText = "認識中: " + interimTranscript;
+
+        // 「田沢湖」が含まれているかチェック
+        if (interimTranscript.includes("田沢湖")) {
             clearTimeout(timer);
             stopVisualizer();
-            document.getElementById('voice-btn').disabled = false;
-
-            if (result.includes("田沢湖")) {
-                document.getElementById('status-msg').style.color = 'var(--lake-blue)';
-                document.getElementById('status-msg').innerText = "「" + result + "」正解です！";
-                setTimeout(unlockContent, 1000);
-            } else {
-                errorCount++;
-                handleFailure();
-            }
+            recognition.stop();
+            
+            document.getElementById('status-msg').style.color = 'var(--lake-blue)';
+            document.getElementById('status-msg').innerText = "「" + interimTranscript + "」正解です！";
+            
+            setTimeout(unlockContent, 800);
         }
     };
 
-    recognition.onerror = () => {
+    recognition.onerror = (event) => {
+        if(event.error === 'no-speech') return; // 無音時は何もしない
         clearTimeout(timer);
         stopVisualizer();
         document.getElementById('voice-btn').disabled = false;
-        document.getElementById('status-msg').innerText = "エラーが発生しました";
+        document.getElementById('status-msg').innerText = "エラー: " + event.error;
     };
 
     function handleFailure() {
@@ -191,14 +203,11 @@
             document.getElementById('pass-input').style.display = 'inline-block';
             document.getElementById('manual-unlock-btn').style.display = 'inline-block';
             document.getElementById('status-msg').innerText = "手入力に切り替わりました。";
-        } else {
-            alert("合言葉が正しくありません。");
-            document.getElementById('status-msg').innerText = "もう一度ボタンを押して話してください。";
         }
     }
 
     function checkPassword() {
-        if (document.getElementById('pass-input').value === "田沢湖") {
+        if (document.getElementById('pass-input').value.includes("田沢湖")) {
             unlockContent();
         } else {
             alert("合言葉が違います");
@@ -210,6 +219,7 @@
         document.getElementById('password-section').style.display = 'none';
     }
 
+    // ビジュアライザー（波形）の処理
     async function initVisualizer() {
         const canvas = document.getElementById('visualizer');
         const canvasCtx = canvas.getContext('2d');
@@ -243,9 +253,11 @@
         if (audioCtx) audioCtx.close();
     }
 
+    // 画像モーダルの処理（ズーム・スワイプ）
     const modal = document.getElementById('imageModal');
     const img = document.getElementById('modalImg');
     let scale = 1, lastScale = 1, startX = 0, startY = 0, posX = 0, posY = 0, lastPosX = 0, lastPosY = 0, touches = 0;
+    
     document.querySelectorAll('.card img').forEach(el => {
         el.onclick = function() {
             if (!document.getElementById('lock-target').classList.contains('unlocked')) return;
@@ -253,11 +265,13 @@
             scale = 1; posX = 0; posY = 0; lastPosX = 0; lastPosY = 0; updateTransform();
         };
     });
+    
     modal.addEventListener('touchstart', e => {
         touches = e.touches.length;
         if (touches === 1) { startX = e.touches[0].pageX - lastPosX; startY = e.touches[0].pageY - lastPosY; }
         else if (touches === 2) { lastScale = Math.hypot(e.touches[0].pageX - e.touches[1].pageX, e.touches[0].pageY - e.touches[1].pageY) / scale; }
     });
+    
     modal.addEventListener('touchmove', e => {
         e.preventDefault();
         if (e.touches.length === 1) { posX = e.touches[0].pageX - startX; posY = e.touches[0].pageY - startY; }
@@ -267,10 +281,12 @@
         }
         updateTransform();
     });
+    
     modal.addEventListener('touchend', e => {
         lastPosX = posX; lastPosY = posY;
         if (scale <= 1.1 && (Math.abs(posY) > 100 || (e.touches.length === 0 && touches === 1 && Math.abs(posX - lastPosX) < 10))) { modal.style.display = "none"; }
     });
+    
     function updateTransform() { img.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`; }
 </script>
 </body>
