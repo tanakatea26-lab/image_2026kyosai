@@ -14,17 +14,10 @@
 
         /* ロック機能 */
         #password-section { text-align: center; padding: 40px 20px; background: #fff; border-radius: 12px; margin: 20px auto; max-width: 400px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); position: relative; z-index: 100; }
-        #pass-input { padding: 12px; font-size: 1rem; border: 1px solid #ddd; border-radius: 5px; width: 70%; margin-bottom: 10px; outline: none; display: none; }
-        .unlock-btn { padding: 12px 25px; background: var(--lake-blue); color: white; border: none; border-radius: 5px; cursor: pointer; }
-        #voice-btn { padding: 15px 30px; background: #e74c3c; color: white; border: none; border-radius: 50px; cursor: pointer; font-size: 1.1rem; margin-bottom: 10px; transition: background 0.3s; }
-        #voice-btn:disabled { background: #ccc; cursor: not-allowed; }
+        #pass-input { padding: 12px; font-size: 1rem; border: 1px solid #ddd; border-radius: 5px; width: 80%; margin-bottom: 15px; outline: none; box-sizing: border-box; }
+        .unlock-btn { padding: 12px 25px; background: var(--lake-blue); color: white; border: none; border-radius: 5px; cursor: pointer; width: 80%; font-size: 1rem; }
         
-        /* 波形ビジュアライザー */
-        #visualizer-container { height: 60px; width: 100%; margin: 10px 0; display: none; }
-        canvas { width: 100%; height: 100%; }
-
-        #status-msg { font-size: 1.1rem; color: #333; margin-top: 15px; min-height: 1.5em; font-weight: bold; }
-        #manual-unlock-btn { display: none; }
+        #status-msg { font-size: 1.1rem; color: #e74c3c; margin-top: 15px; min-height: 1.5em; font-weight: bold; }
 
         /* モザイク */
         #lock-target { filter: blur(20px); pointer-events: none; user-select: none; transition: filter 0.8s ease; }
@@ -57,17 +50,12 @@
 
 <div class="container">
     <div id="password-section">
-        <p id="instruction-text">合言葉を入れてください</p>
-        
-        <button id="voice-btn" onclick="toggleRecognition()">🎙 音声で答える</button>
-        
-        <div id="visualizer-container">
-            <canvas id="visualizer"></canvas>
-        </div>
+        <p id="instruction-text">手に注目</p>
         
         <div id="manual-input-area">
-            <input type="text" id="pass-input" placeholder="名前を入力">
-            <br><button id="manual-unlock-btn" class="unlock-btn" onclick="checkPassword()">解除する</button>
+            <input type="text" id="pass-input" placeholder="合言葉を入力">
+            <br>
+            <button class="unlock-btn" onclick="checkPassword()">解除する</button>
         </div>
         
         <div id="status-msg"></div>
@@ -96,4 +84,91 @@
             <div class="card"><img src="https://res.cloudinary.com/dwbkrplu6/image/upload/v1767522191/銀山_mmhl7n.jpg"><div class="caption">銀山温泉</div></div>
             <div class="card"><img src="https://res.cloudinary.com/dwbkrplu6/image/upload/v1767522189/抱返り渓谷2_l0bsun.jpg"><div class="caption">抱返り渓谷</div></div>
             <div class="card"><img src="https://res.cloudinary.com/dwbkrplu6/image/upload/v1767522188/鳥海山_srbcfo.jpg"><div class="caption">鳥海山</div></div>
-            <div class="card"><img src="https://res.cloudinary
+            <div class="card"><img src="https://res.cloudinary.com/dwbkrplu6/image/upload/v1767522188/滝_b9px8g.jpg"><div class="caption">元滝伏流水</div></div>
+            <div class="card"><img src="https://res.cloudinary.com/dwbkrplu6/image/upload/v1767522184/由良_ns2hlt.jpg"><div class="caption">由良海岸</div></div>
+            <div class="card"><img src="https://res.cloudinary.com/dwbkrplu6/image/upload/f_auto,q_auto/v1767522184/海岸_rc8hiz.jpg"><div class="caption">透き通る海岸線</div></div>
+        </div>
+
+        <div class="section-title">MOVIES</div>
+        <div class="video-container">
+            <video controls playsinline poster="田沢湖水辺.jpg"><source src="kohan.mp4" type="video/mp4"></video>
+            <div class="caption">湖畔のさざなみ</div>
+        </div>
+        <div class="video-container">
+            <video controls playsinline><source src="tobikomi.mp4" type="video/mp4"></video>
+            <div class="caption">最高の飛び込み！</div>
+        </div>
+
+        <div style="text-align: center; margin-top: 80px;">
+            <a href="about.html" style="color: #666; text-decoration: none; font-size: 1.8rem; border-bottom: 1px solid #ccc; padding-bottom: 5px;">作ってみた感想</a>
+        </div>
+    </div>
+</div>
+
+<div id="imageModal" class="modal">
+    <div class="close-hint">タップか上下スワイプで閉じる / 2本指で拡大</div>
+    <img id="modalImg">
+</div>
+
+<footer>© Summer Memories in Tazawako</footer>
+
+<script>
+    function checkPassword() {
+        const input = document.getElementById('pass-input').value;
+        if (input.includes("田沢湖")) {
+            unlockContent();
+        } else {
+            document.getElementById('status-msg').innerText = "違います。";
+        }
+    }
+
+    function unlockContent() {
+        document.getElementById('lock-target').classList.add('unlocked');
+        document.getElementById('password-section').style.display = 'none';
+    }
+
+    // モーダル機能
+    const modal = document.getElementById('imageModal');
+    const img = document.getElementById('modalImg');
+    let scale = 1, lastScale = 1, startX = 0, startY = 0, posX = 0, posY = 0, lastPosX = 0, lastPosY = 0, touches = 0;
+
+    document.querySelectorAll('.card img').forEach(el => {
+        el.onclick = function() {
+            if (!document.getElementById('lock-target').classList.contains('unlocked')) return;
+            img.src = this.src; modal.style.display = "block";
+            scale = 1; posX = 0; posY = 0; lastPosX = 0; lastPosY = 0; updateTransform();
+        };
+    });
+
+    modal.addEventListener('touchstart', e => {
+        touches = e.touches.length;
+        if (touches === 1) { startX = e.touches[0].pageX - lastPosX; startY = e.touches[0].pageY - lastPosY; }
+        else if (touches === 2) { lastScale = Math.hypot(e.touches[0].pageX - e.touches[1].pageX, e.touches[0].pageY - e.touches[1].pageY) / scale; }
+    });
+
+    modal.addEventListener('touchmove', e => {
+        e.preventDefault();
+        if (e.touches.length === 1) { posX = e.touches[0].pageX - startX; posY = e.touches[0].pageY - startY; }
+        else if (e.touches.length === 2) {
+            scale = Math.hypot(e.touches[0].pageX - e.touches[1].pageX, e.touches[0].pageY - e.touches[1].pageY) / lastScale;
+            scale = Math.min(Math.max(1, scale), 4);
+        }
+        updateTransform();
+    });
+
+    modal.addEventListener('touchend', e => {
+        lastPosX = posX; lastPosY = posY;
+        if (scale <= 1.1 && (Math.abs(posY) > 100 || (e.touches.length === 0 && touches === 1 && Math.abs(posX - lastPosX) < 10))) { modal.style.display = "none"; }
+    });
+
+    function updateTransform() { img.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`; }
+
+    // Enterキーでも解除できるように
+    document.getElementById('pass-input').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            checkPassword();
+        }
+    });
+</script>
+</body>
+</html>
